@@ -22,5 +22,10 @@ lgb:
   params:
     objective: 'binary'
     random_seed: 1234
-  drop_col: []
-  
+  drop_col: ['PassengerId', 'Survived', 'Name', 'Sex', 'Ticket', 'Fare', 'Cabin', 'Embarked', 'Age_bin', 'Cabin_label']
+  model:
+    ers: 200
+    verbose: 100
+  sub:
+    name: 'submit/titanic_lgb.csv'
+

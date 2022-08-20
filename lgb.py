@@ -21,13 +21,12 @@ def main(cfg: DictConfig):
 
     # ハイパーパラメータの設定
     params = {
-        'objective': 'regression',
-        'random_seed': 1234,
+        'objective': cfg.lgb.params.objective,
+        'random_seed': cfg.lgb.params.random_seed,
     }
 
     # 説明変数と目的変数を指定
-    X_train = train.drop(['PassengerId', 'Survived', 'Name', 'Sex', 'Ticket',
-                          'Fare', 'Cabin', 'Embarked', 'Age_bin', 'Cabin_label'], axis=1)
+    X_train = train.drop(cfg.lgb.drop_col, axis=1)
     Y_train = train['Survived']
 
     # Foldごとの結果を保存
@@ -36,8 +35,7 @@ def main(cfg: DictConfig):
     imp = pd.DataFrame()
 
     # K分割する
-    folds = 5
-    kf = KFold(n_splits=folds)
+    kf = KFold(n_splits=cfg.lgb.folds)
 
     for nfold, (train_index, val_index) in enumerate(kf.split(X_train)):
         x_train = X_train.iloc[train_index]
@@ -49,8 +47,8 @@ def main(cfg: DictConfig):
         model.fit(x_train,
                   y_train,
                   eval_set=(x_valid, y_valid),
-                  early_stopping_rounds=200,
-                  verbose=100,
+                  early_stopping_rounds=cfg.lgb.model.ers,
+                  verbose=cfg.lgb.model.verbose,
                   )
 
         y_pred = model.predict(x_valid)
@@ -76,8 +74,7 @@ def main(cfg: DictConfig):
     plt.show()
 
     # 説明変数と目的変数を指定
-    X_test = test.drop(['PassengerId', 'Survived', 'Name', 'Sex', 'Ticket',
-                        'Fare', 'Cabin', 'Embarked', 'Age_bin', 'Cabin_label'], axis=1)
+    X_test = test.drop(cfg.lgb.drop_col, axis=1)
 
     # テストデータにおける予測
     preds = []
@@ -97,7 +94,7 @@ def main(cfg: DictConfig):
     sub['Survived'] = pred.astype('int')
 
     # ファイルのエクスポート
-    sub.to_csv('submit/titanic_lgb.csv', index=False)
+    sub.to_csv(cfg.sub.name, index=False)
 
 
 if __name__ == '__main__':
