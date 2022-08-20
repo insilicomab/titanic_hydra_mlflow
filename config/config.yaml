@@ -1,0 +1,26 @@
+# Hydra Settings ##
+defaults: 
+  - _self_ 
+  - override hydra/hydra_logging: disabled 
+  - override hydra/job_logging: disabled
+ 
+hydra:
+  run:
+    dir: ./
+  output_subdir: null
+  sweep:
+    dir: .
+    subdir: .
+
+# feature.py
+feature:
+  ohe_col: ['Sex', 'Embarked', 'Age_bin', 'Cabin_label']
+
+# lgb.py
+lgb:
+  folds: 5
+  params:
+    objective: 'binary'
+    random_seed: 1234
+  drop_col: []
+  
