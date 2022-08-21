@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/mitsutaka/Desktop/titanic_hydra_mlflow/mlruns/0/d969c6c68d4c4f0ba16699bbff7c696f/artifacts
+end_time: 1661049765008
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: d969c6c68d4c4f0ba16699bbff7c696f
+run_uuid: d969c6c68d4c4f0ba16699bbff7c696f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1661049761069
+status: 3
+tags: []
+user_id: mitsutaka
